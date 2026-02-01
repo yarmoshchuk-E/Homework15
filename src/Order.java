@@ -32,6 +32,7 @@ public class Order {
         return "Покупатель: " + getCustomer() + " " + Arrays.toString(basket);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,6 +40,18 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        return customer.equals(order.customer) && Arrays.equals(basket, order.basket);
+
+        if (basket == null || order.basket == null) {
+            return false;
+        }
+        if (basket.length == order.basket.length) {
+            return true;
+        }
+        for (int i = 0; i < basket.length; i++) {
+            if (basket[i] != order.basket[i]) {
+                return false;
+            }
+        }
+        return Objects.equals(customer, order.customer) && Arrays.equals(basket, order.basket);
     }
 }
