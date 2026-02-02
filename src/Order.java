@@ -41,37 +41,31 @@ public class Order {
             return false;
         }
         Order order = (Order) o;
-        //Проверку Objects.equals(customer, order.customer) - поставить на первое место, перед проверкой на null basket'ов.
-        if (Objects.equals(customer, order.customer)) {
-            return true;
-        }
-        //Тебе следует проверить на НЕ совпадение длины массивов.
-        if (basket.length != order.basket.length) {
+        if (!Objects.equals(customer, order.customer)) {
             return false;
         }
-        //Добавь проверку, если оба basket равны нулю - вернуть истину
         if (basket == null && order.basket == null) {
             return true;
         }
+        if (basket == null || order.basket == null) {
+            return false;
+        }
+        if (basket.length != order.basket.length) {
+            return false;
+        }
 
         for (int i = 0; i < basket.length; i++) {
-            //Первая проверка - если элементы массива равны нулю оба, следует пропустить итерацию
-            //(в массивах первые элементы отсутствуют, к примеру).
+
             if (basket[i] == null && order.basket[i] == null) {
-                return true;                                        //
+                continue;
             }
-            //Вторая проверка - если один из элементов равен null, а другой не равен null.
-            if (basket[i] == null && order.basket[i] != null || basket[i] != null && order.basket[i] == null) {
+            if (basket[i] == null || order.basket[i] == null) {
                 return false;
             }
-            //Только после этого, тебе требуется проверить элементы не через == (как у тебя),
-            //а через equals (p1.equals(p2)) т.к. это объекты.
-            if (basket.equals(order.basket)) {
-                return true;
+            if (!basket.equals(order.basket)) {
+                return false;
             }
         }
-        //Проверку Arrays.equals(basket, order.basket) - требуется убрать.
-        //Вместо этих проверок, верни просто true: return true.
         return true;
     }
 }
